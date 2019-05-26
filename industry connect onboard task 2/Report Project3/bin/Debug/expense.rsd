@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SharedDataSet xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/shareddatasetdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <DataSet Name="DataSet1">
+    <Query>
+      <DataSourceReference>DataSource1</DataSourceReference>
+      <CommandText>select Owner_Name=FirstName+' '+LastName,Property_Address=Street+' street, '+ Suburb+' ,'+City,
+Property_Detail=cast(Bedroom as varchar)+ (case when Bedroom&lt;=1 then ' bedroom '
+else ' bedrooms '
+END)+cast(Bathroom as varchar)+ (case when Bathroom&lt;=1 then ' Bathroom'
+else ' Bathrooms'
+END)
+,mouthly_pay='$'+cast(PropertyRepayment.Amount as varchar) + ' per '+(case when FrequencyType=1 then 'weekly'
+when FrequencyType=2 then 'fortnight'
+when FrequencyType=3 then 'monthly' END)
+,expense=PropertyExpense.Amount,PropertyExpense.Date, 
+PropertyExpense.Description from Property inner join Address on Property.AddressId=Address.AddressId 
+inner join OwnerProperty on Property.id=OwnerProperty.PropertyId inner join PropertyRepayment 
+on Property.id=PropertyRepayment.PropertyId right join PropertyExpense on Property.id=PropertyExpense.PropertyId 
+inner join Person on OwnerProperty.OwnerId=Person.Id
+where Property.id=5597</CommandText>
+    </Query>
+    <Fields>
+      <Field Name="Owner_Name">
+        <DataField>Owner_Name</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="Property_Address">
+        <DataField>Property_Address</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="Property_Detail">
+        <DataField>Property_Detail</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="mouthly_pay">
+        <DataField>mouthly_pay</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="expense">
+        <DataField>expense</DataField>
+        <rd:TypeName>System.Decimal</rd:TypeName>
+      </Field>
+      <Field Name="Date">
+        <DataField>Date</DataField>
+        <rd:TypeName>System.DateTime</rd:TypeName>
+      </Field>
+      <Field Name="Description">
+        <DataField>Description</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+    </Fields>
+  </DataSet>
+</SharedDataSet>
